@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Damotech/connection-service#readme",
   "peerDependencies": {
     "lodash-es": ">=4.0.0",
-    "rxjs": ">=6.5.3"
+    "rxjs": "^6.6.3"
   },
   "files": [
     "/dist"

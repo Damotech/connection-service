@@ -89,7 +89,8 @@ export class ConnectionService {
         if (this.currentState.hasNetworkConnection) {
           fetch(this.serviceOptions.heartbeatUrl, { mode: "no-cors" }).then(
             (response) => {
-              this.currentState.hasInternetAccess = response.type === "opaque";
+              this.currentState.hasInternetAccess =
+                response.ok || response.type === "opaque";
               this.emitEvent();
             }
           );
