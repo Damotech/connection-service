@@ -1,6 +1,6 @@
 {
   "name": "connection-service",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Detects active internet connection.",
   "main": "dist/connection.service.js",
   "types": "dist/connection.service.d.ts",
