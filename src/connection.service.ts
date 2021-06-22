@@ -49,7 +49,7 @@ export class ConnectionService {
   private stateChangeEventEmitter = new Subject<ConnectionState>();
 
   private currentState: ConnectionState = {
-    hasInternetAccess: false,
+    hasInternetAccess: window.navigator.onLine,
     hasNetworkConnection: window.navigator.onLine,
   };
   private offlineSubscription: Subscription;
