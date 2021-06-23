@@ -42,7 +42,7 @@ export interface ConnectionServiceOptions {
 export class ConnectionService {
   private static DEFAULT_OPTIONS: ConnectionServiceOptions = {
     enableHeartbeat: true,
-    heartbeatUrl: "https://google.com",
+    heartbeatUrl: "https://damotech.github.io/connection-service/",
     heartbeatInterval: 10000,
   };
 
