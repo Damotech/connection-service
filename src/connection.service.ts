@@ -87,11 +87,23 @@ export class ConnectionService {
         this.serviceOptions.heartbeatInterval
       ).subscribe(() => {
         if (this.currentState.hasNetworkConnection) {
-          this.load(this.serviceOptions.heartbeatUrl, (data, status) => {
-            console.log("data is ", data, status);
-            this.currentState.hasInternetAccess = status === 200;
-            this.emitEvent();
-          });
+          // this.load(this.serviceOptions.heartbeatUrl, (data, status) => {
+          //   console.log("data is ", data, status);
+          //   this.currentState.hasInternetAccess = status === 200;
+          //   this.emitEvent();
+          // });
+          fetch(`${this.serviceOptions.heartbeatUrl}?_=${new Date().getTime()}`)
+            .then((response) => {
+              this.currentState.hasInternetAccess =
+                response.ok || response.type === "opaque";
+              this.emitEvent();
+            })
+            .catch((e) => {
+              console.log(
+                `Error in fetching ${this.serviceOptions.heartbeatUrl}`,
+                e
+              );
+            });
         }
       });
     } else {
@@ -151,16 +163,16 @@ export class ConnectionService {
     this.checkInternetState();
   }
 
-  load(url: string, callback) {
-    const xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        callback(xhr.response, xhr.status);
-      }
-    };
-
-    xhr.open("GET", url, true);
-    xhr.send("");
-  }
+  // load(url: string, callback) {
+  //   const xhr = new XMLHttpRequest();
+  //
+  //   xhr.onreadystatechange = function () {
+  //     if (xhr.readyState === 4) {
+  //       callback(xhr.response, xhr.status);
+  //     }
+  //   };
+  //
+  //   xhr.open("GET", url, true);
+  //   xhr.send("");
+  // }
 }
