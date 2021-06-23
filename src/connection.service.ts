@@ -87,13 +87,18 @@ export class ConnectionService {
         this.serviceOptions.heartbeatInterval
       ).subscribe(() => {
         if (this.currentState.hasNetworkConnection) {
-          fetch(this.serviceOptions.heartbeatUrl, { mode: "no-cors" }).then(
-            (response) => {
+          fetch(this.serviceOptions.heartbeatUrl, { mode: "no-cors" })
+            .then((response) => {
               this.currentState.hasInternetAccess =
                 response.ok || response.type === "opaque";
               this.emitEvent();
-            }
-          );
+            })
+            .catch((e) => {
+              console.log(
+                `Error in fetching ${this.serviceOptions.heartbeatUrl}`,
+                e
+              );
+            });
         }
       });
     } else {
