@@ -42,7 +42,7 @@ export interface ConnectionServiceOptions {
 export class ConnectionService {
   private static DEFAULT_OPTIONS: ConnectionServiceOptions = {
     enableHeartbeat: true,
-    heartbeatUrl: "https://damotech.github.io/connection-service/",
+    heartbeatUrl: "https://google.com",
     heartbeatInterval: 10000,
   };
 
@@ -87,18 +87,16 @@ export class ConnectionService {
         this.serviceOptions.heartbeatInterval
       ).subscribe(() => {
         if (this.currentState.hasNetworkConnection) {
-          // this.load(this.serviceOptions.heartbeatUrl, (data, status) => {
-          //   console.log("data is ", data, status);
-          //   this.currentState.hasInternetAccess = status === 200;
-          //   this.emitEvent();
-          // });
-          fetch(`${this.serviceOptions.heartbeatUrl}?_=${new Date().getTime()}`)
+          const timestamp = new Date().getTime();
+          fetch(`${this.serviceOptions.heartbeatUrl}?_=${timestamp}`)
             .then((response) => {
               this.currentState.hasInternetAccess =
                 response.ok || response.type === "opaque";
               this.emitEvent();
             })
             .catch((e) => {
+              this.currentState.hasInternetAccess = false;
+              this.emitEvent();
               console.log(
                 `Error in fetching ${this.serviceOptions.heartbeatUrl}`,
                 e
@@ -162,17 +160,4 @@ export class ConnectionService {
     this.serviceOptions = _.defaults({}, options, this.serviceOptions);
     this.checkInternetState();
   }
-
-  // load(url: string, callback) {
-  //   const xhr = new XMLHttpRequest();
-  //
-  //   xhr.onreadystatechange = function () {
-  //     if (xhr.readyState === 4) {
-  //       callback(xhr.response, xhr.status);
-  //     }
-  //   };
-  //
-  //   xhr.open("GET", url, true);
-  //   xhr.send("");
-  // }
 }
