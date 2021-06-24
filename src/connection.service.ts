@@ -90,14 +90,13 @@ export class ConnectionService {
           const timestamp = new Date().getTime();
           fetch(`${this.serviceOptions.heartbeatUrl}?_=${timestamp}`)
             .then((response) => {
-              this.currentState.hasInternetAccess =
-                response.ok || response.type === "opaque";
+              this.currentState.hasInternetAccess = response.ok;
               this.emitEvent();
             })
             .catch((e) => {
               this.currentState.hasInternetAccess = false;
               this.emitEvent();
-              console.log(
+              console.error(
                 `Error in fetching ${this.serviceOptions.heartbeatUrl}`,
                 e
               );
