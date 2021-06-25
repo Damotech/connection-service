@@ -42,7 +42,7 @@ export interface ConnectionServiceOptions {
 export class ConnectionService {
   private static DEFAULT_OPTIONS: ConnectionServiceOptions = {
     enableHeartbeat: true,
-    heartbeatUrl: "https://google.com",
+    heartbeatUrl: "https://damotech.github.io/connection-service/",
     heartbeatInterval: 10000,
   };
 
@@ -87,13 +87,20 @@ export class ConnectionService {
         this.serviceOptions.heartbeatInterval
       ).subscribe(() => {
         if (this.currentState.hasNetworkConnection) {
-          fetch(this.serviceOptions.heartbeatUrl, { mode: "no-cors" }).then(
-            (response) => {
-              this.currentState.hasInternetAccess =
-                response.ok || response.type === "opaque";
+          const timestamp = new Date().getTime();
+          fetch(`${this.serviceOptions.heartbeatUrl}?_=${timestamp}`)
+            .then((response) => {
+              this.currentState.hasInternetAccess = response.ok;
               this.emitEvent();
-            }
-          );
+            })
+            .catch((e) => {
+              this.currentState.hasInternetAccess = false;
+              this.emitEvent();
+              console.error(
+                `Error in fetching ${this.serviceOptions.heartbeatUrl}`,
+                e
+              );
+            });
         }
       });
     } else {
