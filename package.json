@@ -1,6 +1,6 @@
 {
   "name": "connection-service",
-  "version": "4.0.5",
+  "version": "5.0.0",
   "description": "Detects active internet connection.",
   "main": "dist/connection.service.js",
   "types": "dist/connection.service.d.ts",
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Damotech/connection-service#readme",
   "peerDependencies": {
     "lodash-es": ">=4.0.0",
-    "rxjs": "^6.6.3"
+    "rxjs": ">=7.0.0"
   },
   "files": [
     "/dist"
